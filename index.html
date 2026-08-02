@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name — Portfolio</title>
+<meta name="description" content="Portfolio and resume of Your Name.">
+
+<!-- ============================================================
+  HOW TO EDIT THIS SITE (no coding required):
+  1. Replace anything in [BRACKETS] with your own info.
+  2. To add/remove a project, copy a whole <article class="project"> block
+     and change the text inside it.
+  3. To add/remove a job, copy a whole <div class="entry"> block under Experience.
+  4. To change colors, edit the values inside :root at the top of the CSS below.
+  5. Save the file and push it to GitHub — the live site updates automatically.
+============================================================= -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    /* ---- COLOR TOKENS — change these to re-theme the whole site ---- */
+    --bg:        #F7F6F3;   /* page background, warm paper */
+    --panel:     #EFEDE7;   /* sidebar background */
+    --ink:       #1B1B18;   /* primary text, near-black */
+    --ink-soft:  #55534C;   /* secondary text */
+    --accent:    #46583F;   /* deep sage green — links, highlights */
+    --accent-soft:#B9C4AE;  /* pale sage — used sparingly */
+    --line:      #DEDAD2;   /* hairline dividers */
+    --tag-bg:    #E4E1D9;   /* skill/tech tag background */
+
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.6;
+    font-size:16px;
+  }
+
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  h1,h2,h3{ font-family:var(--font-display); color:var(--ink); font-weight:600; }
+
+  /* ---------- LAYOUT: fixed sidebar + scrolling content ---------- */
+
+  .layout{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    min-height:100vh;
+  }
+
+  .sidebar{
+    background:var(--panel);
+    border-right:1px solid var(--line);
+    padding:3rem 2rem;
+    position:sticky;
+    top:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+
+  .sidebar-top h1{
+    font-size:1.9rem;
+    line-height:1.15;
+    margin-bottom:0.35rem;
+  }
+
+  .sidebar-top .role{
+    font-family:var(--font-mono);
+    font-size:0.85rem;
+    color:var(--accent);
+    margin-bottom:1.75rem;
+  }
+
+  .sidebar-top .blurb{
+    font-size:0.92rem;
+    color:var(--ink-soft);
+    margin-bottom:2.25rem;
+  }
+
+  /* progress rail: fills in as you scroll through sections */
+  nav.railnav{
+    position:relative;
+    padding-left:1.1rem;
+    border-left:1px solid var(--line);
+  }
+
+  nav.railnav .rail-fill{
+    position:absolute;
+    left:-1px; top:0;
+    width:1px;
+    height:0%;
+    background:var(--accent);
+    transition:height 0.25s ease;
+  }
+
+  nav.railnav a{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:0.82rem;
+    letter-spacing:0.02em;
+    color:var(--ink-soft);
+    padding:0.4rem 0;
+    text-decoration:none;
+    transition:color 0.2s ease;
+  }
+
+  nav.railnav a:hover{ color:var(--ink); }
+  nav.railnav a.active{ color:var(--accent); font-weight:500; }
+
+  .sidebar-bottom{
+    display:flex;
+    flex-direction:column;
+    gap:0.6rem;
+    font-family:var(--font-mono);
+    font-size:0.82rem;
+  }
+
+  .sidebar-bottom a{ color:var(--ink-soft); }
+  .sidebar-bottom a:hover{ color:var(--accent); }
+
+  .resume-btn{
+    display:inline-block;
+    margin-top:0.5rem;
+    padding:0.6rem 1rem;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    font-family:var(--font-mono);
+    font-size:0.8rem;
+    text-align:center;
+    text-decoration:none;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .resume-btn:hover{
+    background:var(--ink);
+    color:var(--bg);
+    text-decoration:none;
+  }
+
+  /* ---------- MAIN CONTENT ---------- */
+
+  main{ padding:4rem 4rem 6rem; max-width:760px; }
+
+  section{ margin-bottom:5.5rem; }
+  section:target, section.in-view{ }
+
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:0.75rem;
+    margin-bottom:1.75rem;
+  }
+
+  .section-head h2{ font-size:1.5rem; }
+  .section-head .eyebrow{ margin-bottom:0; }
+
+  .rule{
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+
+  /* About */
+  #about p{ margin-bottom:1rem; color:var(--ink-soft); max-width:640px; }
+  #about p strong{ color:var(--ink); font-weight:600; }
+
+  /* Experience */
+  .entry{
+    display:grid;
+    grid-template-columns:130px 1fr;
+    gap:1.5rem;
+    padding:1.5rem 0;
+    border-bottom:1px solid var(--line);
+  }
+  .entry:first-child{ padding-top:0; }
+  .entry:last-child{ border-bottom:none; }
+
+  .entry .dates{
+    font-family:var(--font-mono);
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    padding-top:0.2rem;
+  }
+
+  .entry h3{ font-size:1.05rem; margin-bottom:0.15rem; }
+  .entry .org{
+    font-size:0.88rem;
+    color:var(--accent);
+    margin-bottom:0.65rem;
+  }
+  .entry ul{ padding-left:1.1rem; color:var(--ink-soft); font-size:0.92rem; }
+  .entry li{ margin-bottom:0.35rem; }
+
+  /* Projects */
+  .projects-grid{
+    display:grid;
+    gap:1.75rem;
+  }
+
+  .project{
+    border:1px solid var(--line);
+    padding:1.75rem;
+    background:rgba(255,255,255,0.35);
+  }
+
+  .project-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:1rem;
+    margin-bottom:0.6rem;
+  }
+
+  .project h3{ font-size:1.1rem; }
+
+  .project-links{
+    font-family:var(--font-mono);
+    font-size:0.78rem;
+    white-space:nowrap;
+  }
+  .project-links a{ margin-left:0.75rem; }
+
+  .project p{ color:var(--ink-soft); font-size:0.93rem; margin-bottom:0.9rem; }
+
+  .tags{ display:flex; flex-wrap:wrap; gap:0.4rem; }
+  .tag{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    background:var(--tag-bg);
+    color:var(--ink-soft);
+    padding:0.2rem 0.55rem;
+    border-radius:2px;
+  }
+
+  /* Skills */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:1.75rem;
+  }
+  .skill-group h3{
+    font-size:0.9rem;
+    font-family:var(--font-mono);
+    font-weight:500;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    margin-bottom:0.75rem;
+  }
+  .skill-group .tags .tag{ background:transparent; border:1px solid var(--line); }
+
+  /* Contact */
+  #contact p{ color:var(--ink-soft); max-width:520px; margin-bottom:1.5rem; }
+  .contact-links{ display:flex; flex-direction:column; gap:0.6rem; }
+  .contact-links a{
+    font-family:var(--font-mono);
+    font-size:0.95rem;
+    color:var(--ink);
+  }
+  .contact-links a:hover{ color:var(--accent); }
+
+  footer{
+    padding:2rem 4rem 3rem;
+    font-family:var(--font-mono);
+    font-size:0.75rem;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- MOBILE ---------- */
+  @media (max-width: 860px){
+    .layout{ grid-template-columns:1fr; }
+    .sidebar{
+      position:relative;
+      height:auto;
+      flex-direction:row;
+      align-items:center;
+      justify-content:space-between;
+      padding:1.25rem 1.5rem;
+      gap:1rem;
+    }
+    .sidebar-top .blurb, nav.railnav, .sidebar-bottom{ display:none; }
+    .sidebar-top .role{ margin-bottom:0; }
+    main{ padding:2.5rem 1.5rem 4rem; }
+    .entry{ grid-template-columns:1fr; gap:0.4rem; }
+    .skills-grid{ grid-template-columns:1fr; }
+    footer{ padding:2rem 1.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <h1>[Your Name]</h1>
+      <div class="role">[Your Job Title / What You Do]</div>
+      <p class="blurb">[One-line summary of what you do and who you help — e.g. "I build data-driven products for early-stage startups."]</p>
+
+      <nav class="railnav" aria-label="Section navigation">
+        <div class="rail-fill" id="railFill"></div>
+        <a href="#about" data-section="about">About</a>
+        <a href="#experience" data-section="experience">Experience</a>
+        <a href="#projects" data-section="projects">Projects</a>
+        <a href="#skills" data-section="skills">Skills</a>
+        <a href="#contact" data-section="contact">Contact</a>
+      </nav>
+    </div>
+
+    <div class="sidebar-bottom">
+      <a href="mailto:[[email protected]]">[[email protected]]</a>
+      <a href="https://github.com/[yourusername]" target="_blank" rel="noopener">github.com/[yourusername]</a>
+      <a href="https://linkedin.com/in/[yourusername]" target="_blank" rel="noopener">linkedin.com/in/[yourusername]</a>
+      <a class="resume-btn" href="resume.pdf" target="_blank" rel="noopener">Download Résumé (PDF) ↓</a>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main>
+
+    <section id="about">
+      <div class="section-head">
+        <span class="eyebrow">01</span>
+        <h2>About</h2>
+        <div class="rule"></div>
+      </div>
+      <p>
+        [Write 2–4 sentences about who you are, your background, and what drives your work.
+        Example: "I'm a software engineer with 4 years of experience building web
+        applications, currently focused on frontend performance and accessibility.
+        Outside of work I contribute to open-source tools and mentor new developers."]
+      </p>
+      <p>
+        [Optional second paragraph — education, certifications, or a fun personal detail.
+        Example: "I hold a <strong>B.S. in Computer Science</strong> from [Your University]
+        and I'm based in [Your City]."]
+      </p>
+    </section>
+
+    <section id="experience">
+      <div class="section-head">
+        <span class="eyebrow">02</span>
+        <h2>Experience</h2>
+        <div class="rule"></div>
+      </div>
+
+      <div class="entry">
+        <div class="dates">[2023 — Present]</div>
+        <div>
+          <h3>[Job Title]</h3>
+          <div class="org">[Company Name] · [Location]</div>
+          <ul>
+            <li>[Achievement or responsibility — use numbers where you can, e.g. "Reduced page load time by 40% through code-splitting."]</li>
+            <li>[Second bullet point]</li>
+            <li>[Third bullet point]</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="dates">[2021 — 2023]</div>
+        <div>
+          <h3>[Job Title]</h3>
+          <div class="org">[Company Name] · [Location]</div>
+          <ul>
+            <li>[Achievement or responsibility]</li>
+            <li>[Second bullet point]</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Copy one .entry block above to add more jobs -->
+
+    </section>
+
+    <section id="projects">
+      <div class="section-head">
+        <span class="eyebrow">03</span>
+        <h2>Projects</h2>
+        <div class="rule"></div>
+      </div>
+
+      <div class="projects-grid">
+
+        <article class="project">
+          <div class="project-head">
+            <h3>[Project Name]</h3>
+            <div class="project-links">
+              <a href="[live-demo-url]" target="_blank" rel="noopener">Live</a>
+              <a href="[github-repo-url]" target="_blank" rel="noopener">Code</a>
+            </div>
+          </div>
+          <p>[One or two sentences describing what the project does and the problem it solves.]</p>
+          <div class="tags">
+            <span class="tag">[Tech 1]</span>
+            <span class="tag">[Tech 2]</span>
+            <span class="tag">[Tech 3]</span>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-head">
+            <h3>[Project Name]</h3>
+            <div class="project-links">
+              <a href="[live-demo-url]" target="_blank" rel="noopener">Live</a>
+              <a href="[github-repo-url]" target="_blank" rel="noopener">Code</a>
+            </div>
+          </div>
+          <p>[One or two sentences describing what the project does and the problem it solves.]</p>
+          <div class="tags">
+            <span class="tag">[Tech 1]</span>
+            <span class="tag">[Tech 2]</span>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-head">
+            <h3>[Project Name]</h3>
+            <div class="project-links">
+              <a href="[live-demo-url]" target="_blank" rel="noopener">Live</a>
+              <a href="[github-repo-url]" target="_blank" rel="noopener">Code</a>
+            </div>
+          </div>
+          <p>[One or two sentences describing what the project does and the problem it solves.]</p>
+          <div class="tags">
+            <span class="tag">[Tech 1]</span>
+            <span class="tag">[Tech 2]</span>
+            <span class="tag">[Tech 3]</span>
+          </div>
+        </article>
+
+        <!-- Copy one <article class="project"> block above to add more projects -->
+
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-head">
+        <span class="eyebrow">04</span>
+        <h2>Skills</h2>
+        <div class="rule"></div>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h3>[Category 1, e.g. Languages]</h3>
+          <div class="tags">
+            <span class="tag">[Skill]</span>
+            <span class="tag">[Skill]</span>
+            <span class="tag">[Skill]</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>[Category 2, e.g. Tools]</h3>
+          <div class="tags">
+            <span class="tag">[Skill]</span>
+            <span class="tag">[Skill]</span>
+            <span class="tag">[Skill]</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>[Category 3, e.g. Frameworks]</h3>
+          <div class="tags">
+            <span class="tag">[Skill]</span>
+            <span class="tag">[Skill]</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>[Category 4, e.g. Other]</h3>
+          <div class="tags">
+            <span class="tag">[Skill]</span>
+            <span class="tag">[Skill]</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-head">
+        <span class="eyebrow">05</span>
+        <h2>Contact</h2>
+        <div class="rule"></div>
+      </div>
+      <p>[A short line inviting people to reach out — e.g. "I'm currently open to new opportunities. Feel free to reach out by email or connect with me on LinkedIn."]</p>
+      <div class="contact-links">
+        <a href="mailto:[[email protected]]">[[email protected]]</a>
+        <a href="https://github.com/[yourusername]" target="_blank" rel="noopener">GitHub → github.com/[yourusername]</a>
+        <a href="https://linkedin.com/in/[yourusername]" target="_blank" rel="noopener">LinkedIn → linkedin.com/in/[yourusername]</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  © [2026] [Your Name]. Built with HTML &amp; CSS, hosted on GitHub Pages.
+</footer>
+
+<script>
+  // Highlights the current section in the sidebar nav and fills the rail as you scroll.
+  const sections = document.querySelectorAll('main section');
+  const navLinks = document.querySelectorAll('.railnav a');
+  const railFill = document.getElementById('railFill');
+
+  function onScroll(){
+    let currentIndex = 0;
+    sections.forEach((sec, i) => {
+      const rect = sec.getBoundingClientRect();
+      if(rect.top <= 140){ currentIndex = i; }
+    });
+
+    navLinks.forEach((link, i) => {
+      link.classList.toggle('active', i === currentIndex);
+    });
+
+    const pct = ((currentIndex + 1) / sections.length) * 100;
+    railFill.style.height = pct + '%';
+  }
+
+  document.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('load', onScroll);
+</script>
+
+</body>
+</html>
