@@ -23,14 +23,15 @@
 <style>
   :root{
     /* ---- COLOR TOKENS — change these to re-theme the whole site ---- */
-    --bg:        #F7F6F3;   /* page background, warm paper */
-    --panel:     #EFEDE7;   /* sidebar background */
-    --ink:       #1B1B18;   /* primary text, near-black */
-    --ink-soft:  #55534C;   /* secondary text */
-    --accent:    #46583F;   /* deep sage green — links, highlights */
-    --accent-soft:#B9C4AE;  /* pale sage — used sparingly */
-    --line:      #DEDAD2;   /* hairline dividers */
-    --tag-bg:    #E4E1D9;   /* skill/tech tag background */
+    --bg:        #161815;   /* page background, warm near-black */
+    --panel:     #1C1F1A;   /* sidebar background, slightly lighter */
+    --ink:       #EDEBE3;   /* primary text, warm off-white */
+    --ink-soft:  #9A968A;   /* secondary text, muted taupe */
+    --accent:    #A8C79A;   /* soft sage green — links, highlights */
+    --accent-soft:#5C6B52;  /* deeper sage — used sparingly */
+    --line:      #2E3129;   /* hairline dividers */
+    --tag-bg:    #24271F;   /* skill/tech tag background */
+    --photo-bg:  #24271F;   /* placeholder image background */
 
     --font-display: 'Fraunces', serif;
     --font-body: 'Inter', sans-serif;
@@ -85,6 +86,42 @@
     flex-direction:column;
     justify-content:space-between;
   }
+
+  .avatar{
+    width:88px;
+    height:88px;
+    border-radius:50%;
+    margin-bottom:1.5rem;
+    position:relative;
+    overflow:hidden;
+    background:var(--photo-bg);
+  }
+
+  .avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .avatar .placeholder{
+    position:absolute;
+    inset:0;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:0.2rem;
+    border:1px dashed var(--line);
+    border-radius:50%;
+    color:var(--ink-soft);
+    font-family:var(--font-mono);
+    text-align:center;
+    line-height:1.2;
+  }
+
+  .avatar .placeholder svg{ width:22px; height:22px; opacity:0.6; }
+  .avatar .placeholder span{ font-size:0.55rem; padding:0 0.3rem; }
 
   .sidebar-top h1{
     font-size:1.9rem;
@@ -227,7 +264,7 @@
   .project{
     border:1px solid var(--line);
     padding:1.75rem;
-    background:rgba(255,255,255,0.35);
+    background:var(--panel);
   }
 
   .project-head{
@@ -239,6 +276,39 @@
   }
 
   .project h3{ font-size:1.1rem; }
+
+  .project-photo{
+    width:100%;
+    aspect-ratio:16/9;
+    margin-bottom:1rem;
+    border-radius:2px;
+    overflow:hidden;
+    position:relative;
+    background:var(--photo-bg);
+  }
+
+  .project-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .project-photo .placeholder{
+    position:absolute;
+    inset:0;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:0.4rem;
+    border:1px dashed var(--line);
+    color:var(--ink-soft);
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+  }
+
+  .project-photo .placeholder svg{ width:26px; height:26px; opacity:0.6; }
 
   .project-links{
     font-family:var(--font-mono);
@@ -326,6 +396,16 @@
   <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar">
     <div class="sidebar-top">
+      <!-- PROFILE PHOTO: put a file named profile.jpg next to index.html.
+           Until you add one, this shows a placeholder circle automatically. -->
+      <div class="avatar">
+        <img src="profile.jpg" alt="[Your Name]"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg>
+          <span>Add profile.jpg</span>
+        </div>
+      </div>
       <h1>[Your Name]</h1>
       <div class="role">[Your Job Title / What You Do]</div>
       <p class="blurb">[One-line summary of what you do and who you help — e.g. "I build data-driven products for early-stage startups."]</p>
@@ -416,6 +496,14 @@
       <div class="projects-grid">
 
         <article class="project">
+          <div class="project-photo">
+            <img src="project1.jpg" alt="[Project Name] screenshot"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="1.5"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-4 4-3-3-4 4"/></svg>
+              <span>Add project1.jpg</span>
+            </div>
+          </div>
           <div class="project-head">
             <h3>[Project Name]</h3>
             <div class="project-links">
@@ -432,6 +520,14 @@
         </article>
 
         <article class="project">
+          <div class="project-photo">
+            <img src="project2.jpg" alt="[Project Name] screenshot"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="1.5"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-4 4-3-3-4 4"/></svg>
+              <span>Add project2.jpg</span>
+            </div>
+          </div>
           <div class="project-head">
             <h3>[Project Name]</h3>
             <div class="project-links">
@@ -447,6 +543,14 @@
         </article>
 
         <article class="project">
+          <div class="project-photo">
+            <img src="project3.jpg" alt="[Project Name] screenshot"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="1.5"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-4 4-3-3-4 4"/></svg>
+              <span>Add project3.jpg</span>
+            </div>
+          </div>
           <div class="project-head">
             <h3>[Project Name]</h3>
             <div class="project-links">
